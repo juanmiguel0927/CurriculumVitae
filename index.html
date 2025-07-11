@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Dinámico - Juan Miguel Ríos Redondo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+        }
+        .page-section {
+            display: none; /* Hidden by default */
+        }
+        .page-section.active {
+            display: block; /* Shown when active */
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            color: #1e3a8a; /* Darker blue for titles */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .list-item i {
+            color: #3b82f6; /* Blue icon */
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #3b82f6; /* Blue border */
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            height: 8px;
+            margin-top: 1rem;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+        /* Style for scrollable content within cards if needed */
+        .scrollable-content {
+            max-height: 400px; /* Adjust as needed */
+            overflow-y: auto;
+            padding-right: 1rem; /* Space for scrollbar */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-blue-100 to-indigo-200">
+
+    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-6 sm:p-8 relative overflow-hidden">
+
+        <!-- Header -->
+        <header class="text-center mb-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2">Juan Miguel Ríos Redondo</h1>
+            <p class="text-lg sm:text-xl text-blue-600 font-semibold">Compositor, Guitarrista, Docente y Editor Musical</p>
+        </header>
+
+        <!-- Page Content -->
+        <div id="presentation-content">
+            <!-- Page 1: Perfil Profesional -->
+            <section id="page-1" class="page-section active">
+                <div class="card">
+                    <h2 class="section-title text-2xl">Perfil Profesional</h2>
+                    <div class="flex flex-col items-center mb-6">
+                        <!-- La URL de la foto del usuario ha sido insertada aquí. -->
+                        <img src="https://scontent.fbaq13-1.fna.fbcdn.net/v/t39.30808-6/465004443_10161915921809464_7972063837908801674_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGRiGyRQTeLzq5Hw4M9U4Pm6YHmbQPJyBLpgeZtA8nIEoL-BvLBYeAbzDhAUG1ljeY&_nc_ohc=5ukRXXiLEkgQ7kNvwGHi6ML&_nc_oc=AdkMQToN6WBIjmnjF8aSRRpzAEjyB6dAQwQpPVKQT7uqlUNfSBYZPv6dH1TIogJ1Lik&_nc_zt=23&_nc_ht=scontent.fbaq13-1.fna&_nc_gid=lSi_ahVXKxsUCSffRkNVYg&oh=00_AfT9wKUAQD9k5dhJfn5C_2E2YKTa3GzAZoXWdRIA_y4xgQ&oe=68774C10" alt="Foto de perfil de Juan Miguel Ríos Redondo" class="profile-image mb-4">
+                        <p class="text-gray-700 text-center leading-relaxed">
+                            Profesional con amplia capacidad en el área del conocimiento de la música, especializado en
+                            composición académica y jazz. Experiencia destacada en formas y análisis, teoría musical,
+                            orquestación, contrapunto, armonía tradicional y del jazz, arreglos musicales, apreciación
+                            musical, solfeo, y manejo de guitarra clásica y eléctrica. Habilidad en el uso de software
+                            musicales y multimedia. Orientado a la toma de decisiones con un fuerte sentido de
+                            responsabilidad y ética.
+                        </p>
+                    </div>
+                    <ul class="text-gray-700">
+                        <li class="list-item"><i class="fas fa-music"></i> <span>**Especialización:** Composición académica y jazz.</span></li>
+                        <li class="list-item"><i class="fas fa-lightbulb"></i> <span>**Habilidades clave:** Teoría musical, orquestación, contrapunto, armonía (tradicional y jazz), arreglos, solfeo, guitarra clásica y eléctrica.</span></li>
+                        <li class="list-item"><i class="fas fa-laptop-code"></i> <span>**Competencias:** Manejo de software musicales y multimedia, toma de decisiones, responsabilidad y ética.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Page 2: Información Académica -->
+            <section id="page-2" class="page-section">
+                <div class="card">
+                    <h2 class="section-title text-2xl">Información Académica</h2>
+                    <ul class="text-gray-700">
+                        <li class="list-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div>
+                                <p class="font-semibold text-blue-700">Estudios de Maestría en Música, Énfasis en Composición</p>
+                                <p>Universidad Simón Bolívar USB, Caracas, Venezuela</p>
+                            </div>
+                        </li>
+                        <li class="list-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div>
+                                <p class="font-semibold text-blue-700">Licenciatura en Música (Diciembre de 2011)</p>
+                                <p>Universidad del Atlántico, Facultad de Bellas Artes, Barranquilla, Colombia</p>
+                            </div>
+                        </li>
+                        <li class="list-item">
+                            <i class="fas fa-school"></i>
+                            <div>
+                                <p class="font-semibold text-blue-700">Bachiller Académico</p>
+                                <p>Colegio de Barranquilla para varones (CODEBA), Barranquilla, Colombia</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2 class="section-title text-2xl">Cursos y Talleres Relevantes</h2>
+                    <div class="scrollable-content">
+                        <ul class="text-gray-700">
+                            <li class="list-item"><i class="fas fa-book-open"></i> <span>**Orquestación** (Septiembre-Noviembre 2020, 60 horas) - Pontificia Universidad Javeriana</span></li>
+                            <li class="list-item"><i class="fas fa-book-open"></i> <span>**Orquestación** (Noviembre 2021, 5 horas) - Udemy (Instructor: Rovshan Asgarzade)</span></li>
+                            <li class="list-item"><i class="fas fa-file-alt"></i> <span>**Primer Curso de Documentación Musical** (Septiembre 2024) - Desarrollo Integral de la Música</span></li>
+                            <li class="list-item"><i class="fas fa-tools"></i> <span>**Fortalecimiento y capacidades** en el uso de herramientas tecnológicas para la formación musical</span></li>
+                            <li class="list-item"><i class="fas fa-compact-disc"></i> <span>**Armonía, Arreglo y Composición**</span></li>
+                            <li class="list-item"><i class="fas fa-microphone-alt"></i> <span>**Taller de armonía**</span></li>
+                            <li class="list-item"><i class="fas fa-guitar"></i> <span>**Composición e Improvisación** en la Música Popular y el Jazz</span></li>
+                            <li class="list-item"><i class="fas fa-music"></i> <span>**Composición y Arreglo** para Música Popular</span></li>
+                            <li class="list-item"><i class="fas fa-headphones-alt"></i> <span>**Emprendedor en Producción de Audio Digital**</span></li>
+                            <li class="list-item"><i class="fas fa-globe-americas"></i> <span>**Sobre Música** de Argentina, Brasil, México y Hungría</span></li>
+                            <li class="list-item">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <div>
+                                    <p class="font-semibold text-blue-700">Clases Magistrales recibidas de:</p>
+                                    <p>Juan Mario Cuellar (Colombia), Cuarteto Maogani (Brasil), Peter y Zoltán Katona (Hungría-Alemania), Víctor Monge Serranito (España), Daniel Moncayo (Colombia), Carlos Roca (Colombia), Pavel Steidl (República Checa), Ricardo Cobo (Colombia), Dúo Joao Luis y Doglas Lora (Brasil), Laurencio Palacios (Colombia).</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 3: Experiencia Laboral -->
+            <section id="page-3" class="page-section">
+                <div class="card">
+                    <h2 class="section-title text-2xl">Experiencia Laboral</h2>
+                    <ul class="text-gray-700">
+                        <li class="list-item">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <div>
+                                <p class="font-semibold text-blue-700">Docente en Música</p>
+                                <p>Universidad del Norte</p>
+                                <p>Universidad del Atlántico</p>
+                                <p>Universidad Reformada</p>
+                                <p>Comfamiliar del Atlántico</p>
+                                <p>Escuela Distrital de Artes (EDA)</p>
+                                <p>Escuela Musical Alvin Schutmaat (EMAS)</p>
+                                <p>Colegio Fundación Pies Descalzos</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Page 4: Publicaciones y Logros Destacados -->
+            <section id="page-4" class="page-section">
+                <div class="card">
+                    <h2 class="section-title text-2xl">Publicaciones</h2>
+                    <ul class="text-gray-700">
+                        <li class="list-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <p class="font-semibold text-blue-700">Autor de dos libros en proceso de publicación:</p>
+                                <p>"Armonía: Teoría y Práctica"</p>
+                                <p>"Contrapunto"</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h2 class="section-title text-2xl">Logros Destacados</h2>
+                    <div class="scrollable-content">
+                        <ul class="text-gray-700">
+                            <li class="list-item"><i class="fas fa-trophy"></i> <span>**Ganador** con la obra "Ilusión para banda sinfónica" - Banda Metropolitana de Bogotá en 2020.</span></li>
+                            <li class="list-item"><i class="fas fa-pencil-ruler"></i> <span>**Diagramador y Editor Musical** - Manual de Armonía de Gunther Renz.</span></li>
+                            <li class="list-item"><i class="fas fa-assistive-listening-systems"></i> <span>**Asesor de Diagramación Musical** - Ediciones críticas de obras litúrgicas mexicanas.</span></li>
+                            <li class="list-item"><i class="fas fa-award"></i> <span>**Ganador de Portafolio de Estímulo Barranquilla 2020** "El escenario es tu casa" - Proyecto: Notación musical asistida: desarrollo de herramientas básicas y medias en el software de notación musical Finale.</span></li>
+                            <li class="list-item"><i class="fas fa-edit"></i> <span>**Editor de Obras Ganadoras** - Concursos de Composición 2022 de la Orquesta Filarmónica de Bogotá (OFB).</span></li>
+                            <li class="list-item"><i class="fas fa-gavel"></i> <span>**Jurado** - Viernes de Reina y Noche de Orquesta 2016.</span></li>
+                            <li class="list-item"><i class="fas fa-bug"></i> <span>**Beta Tester** - Makemusic Finale para la primera versión oficial en español.</span></li>
+                            <li class="list-item"><i class="fas fa-bug"></i> <span>**Beta Tester** - Plugin Perfect Layout Gold de Elbsound.studio.</span></li>
+                            <li class="list-item"><i class="fas fa-music"></i> <span>**Maestro en Composición** - III Seminario de Composición Infantil y Juvenil 2013, Caracas, Venezuela.</span></li>
+                            <li class="list-item"><i class="fas fa-feather-alt"></i> <span>**Compositor de Obra Impuesta** - XI AMERIDE Festival y Concurso Internacional de Coros 2022, Itajubá-Minas Gerais, Brasil (Obra: "La Negrita").</span></li>
+                            <li class="list-item"><i class="fas fa-globe"></i> <span>**Invitado Especial Representante de Colombia** - XI AMERIDE Festival y Concurso Internacional de Coros 2022, Itajubá-Minas Gerais, Brasil.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 5: Catálogo de Obras -->
+            <section id="page-5" class="page-section">
+                <div class="card">
+                    <h2 class="section-title text-2xl">Catálogo de Obras</h2>
+                    <div class="scrollable-content grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"ENIGMA"</p>
+                            <p class="text-sm text-gray-600">Cuarteto de Cuerdas, 06-sep-2012</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"MIRADAS"</p>
+                            <p class="text-sm text-gray-600">Guitarra, 21-nov-2012</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"SONATINA"</p>
+                            <p class="text-sm text-gray-600">Guitarra, 05-dic-2012</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"PAISAJES"</p>
+                            <p class="text-sm text-gray-600">Cuarteto, 10-ene-2013</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"STRING QUARTET NO. 2"</p>
+                            <p class="text-sm text-gray-600">Cuarteto de Cuerdas, 28-abr-2013</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"DIMENCIONES"</p>
+                            <p class="text-sm text-gray-600">Banda/Orquesta, 04-sep-2013</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"AB PARA GUITARRA VIOLA & FLAUTA"</p>
+                            <p class="text-sm text-gray-600">Trio, 08-ago-2016</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"PIANO PICTÓRICO"</p>
+                            <p class="text-sm text-gray-600">Piano, 26-sep-2016</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"POLOS OPUESTOS"</p>
+                            <p class="text-sm text-gray-600">Quinteto de Cuerdas, 11-abr-2018</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"GOTA PULSANTE. PARA GUITARRA."</p>
+                            <p class="text-sm text-gray-600">Guitarra, 20-oct-2018</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"INSTINTOS PARA BANDA SINFONICA"</p>
+                            <p class="text-sm text-gray-600">Banda Sinfónica, 07-mar-2019</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"ILUSIÓN Y REALIDAD PARA VIOLIN Y ORQUESTA"</p>
+                            <p class="text-sm text-gray-600">Orquesta Sinfónica y Solista, 23-jun-2019</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"VIOLETA (SON PALENQUE)"</p>
+                            <p class="text-sm text-gray-600">Big Band, 30-ene-2020</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"LA NEGRITA (CORO MIXTO)"</p>
+                            <p class="text-sm text-gray-600">Coro Mixto, 28-feb-2020</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"MEDIO OSCURO"</p>
+                            <p class="text-sm text-gray-600">Orquesta Sinfónica, 11-oct-2020</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold text-blue-800">"TEMA CON VARIACIONES PARA GUITARRA"</p>
+                            <p class="text-sm text-gray-600">Guitarra, 11-nov-2021</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 6: Otras Participaciones y Eventos -->
+            <section id="page-6" class="page-section">
+                <div class="card">
+                    <h2 class="section-title text-2xl">Otras Participaciones y Eventos</h2>
+                    <div class="scrollable-content">
+                        <ul class="text-gray-700">
+                            <li class="list-item"><i class="fas fa-calendar-alt"></i> <span>**Segundo Festival de Música Clásica**</span></li>
+                            <li class="list-item"><i class="fas fa-building"></i> <span>**Centenario del Departamento del Atlántico**</span></li>
+                            <li class="list-item">
+                                <i class="fas fa-award"></i>
+                                <div>
+                                    <p class="font-semibold text-blue-700">Clausuras de Estudiantes Destacados</p>
+                                    <p>Facultad de Bellas Artes, Universidad del Atlántico (Teatro Amira de la Rosa, Barranquilla)</p>
+                                </div>
+                            </li>
+                            <li class="list-item">
+                                <i class="fas fa-plane-departure"></i>
+                                <div>
+                                    <p class="font-semibold text-blue-700">Convivencias Musicales y Giras Vocales:</p>
+                                    <p>Gira Medellín-Ipiales (2005)</p>
+                                    <p>Gira Costa-Santander (2004)</p>
+                                    <p>Gira Caribe (2003)</p>
+                                </div>
+                            </li>
+                            <li class="list-item"><i class="fas fa-map-marker-alt"></i> <span>**Mompox, Bolívar**</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 7: Contacto y Datos Personales -->
+            <section id="page-7" class="page-section">
+                <div class="card text-center">
+                    <h2 class="section-title text-2xl">¡Conectemos a través de la música!</h2>
+                    <p class="text-gray-700 mb-4">Estoy abierto a nuevas oportunidades y colaboraciones.</p>
+                    <div class="flex flex-col items-center space-y-3">
+                        <div class="flex items-center text-blue-700">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span class="font-semibold">Teléfono:</span> Cel. 300 491 6648
+                        </div>
+                        <div class="flex items-center text-blue-700">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <span class="font-semibold">Correo Electrónico:</span> juanmiguel0927@gmail.com
+                        </div>
+                        <div class="flex items-center text-blue-700">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="font-semibold">Lugar de Nacimiento:</span> Barranquilla - Atlántico
+                        </div>
+                        <div class="flex items-center text-blue-700">
+                            <i class="fas fa-birthday-cake mr-2"></i>
+                            <span class="font-semibold">Fecha de Nacimiento:</span> 27 de octubre de 1984 (41 Años)
+                        </div>
+                        <div class="flex items-center text-blue-700">
+                            <i class="fas fa-id-card mr-2"></i>
+                            <span class="font-semibold">Documento de Identidad:</span> 72.336.565
+                        </div>
+                    </div>
+                    <p class="text-lg font-semibold text-gray-800 mt-6">¡Gracias por su atención!</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center mt-6">
+            <button id="prev-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
+                <i class="fas fa-arrow-left mr-2"></i> Anterior
+            </button>
+            <div class="progress-bar-container">
+                <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+            <button id="next-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
+                Siguiente <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get all page sections
+        const pages = document.querySelectorAll('.page-section');
+        // Get navigation buttons
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        // Get progress bar fill element
+        const progressBarFill = document.getElementById('progress-bar-fill');
+
+        let currentPageIndex = 0; // Current active page index
+
+        // Function to update page visibility and button states
+        function updatePage() {
+            // Hide all pages
+            pages.forEach((page, index) => {
+                page.classList.remove('active');
+                if (index === currentPageIndex) {
+                    page.classList.add('active'); // Show current page
+                }
+            });
+
+            // Update button states
+            prevButton.disabled = currentPageIndex === 0; // Disable 'Previous' on first page
+            nextButton.disabled = currentPageIndex === pages.length - 1; // Disable 'Next' on last page
+
+            // Update progress bar
+            const progress = ((currentPageIndex + 1) / pages.length) * 100;
+            progressBarFill.style.width = `${progress}%`;
+        }
+
+        // Event listener for 'Previous' button
+        prevButton.addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                updatePage();
+            }
+        });
+
+        // Event listener for 'Next' button
+        nextButton.addEventListener('click', () => {
+            if (currentPageIndex < pages.length - 1) {
+                currentPageIndex++;
+                updatePage();
+            }
+        });
+
+        // Initialize the presentation on load
+        window.onload = updatePage;
+    </script>
+</body>
+</html>
+
