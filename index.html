@@ -394,7 +394,7 @@
                         </div>
                         <div class="flex items-center text-blue-700">
                             <i class="fas fa-birthday-cake mr-2"></i>
-                            <span class="font-semibold">Fecha de Nacimiento:</span> 27 de octubre de 1984 (41 Años)
+                            <span class="font-semibold">Fecha de Nacimiento:</span> 27 de octubre de 1984 <span id="age-span"></span>
                         </div>
                         <div class="flex items-center text-blue-700">
                             <i class="fas fa-id-card mr-2"></i>
@@ -467,7 +467,21 @@
         });
 
         // Initialize the presentation on load
-        window.onload = updatePage;
+        window.onload = function() {
+            // Calculate and display age automatically
+            const birthDate = new Date('1984-10-27T00:00:00');
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            // Update the age in the HTML
+            document.getElementById('age-span').textContent = `(${age} Años)`;
+
+            // Initialize the page view
+            updatePage();
+        };
     </script>
 </body>
 </html>
