@@ -9,15 +9,57 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page-section {
+                display: block !important;
+                page-break-after: always;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+            .scrollable-content {
+                max-height: none;
+                overflow-y: visible;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8; /* Light blue-gray background */
+            transition: background-color 0.3s, color 0.3s;
         }
+        /* Dark mode styles */
+        .dark body {
+            background-color: #0f172a;
+        }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .text-gray-700 { color: #94a3b8; }
+        .dark .text-blue-600 { color: #60a5fa; }
+        .dark .card { background-color: #1e293b; border: 1px solid #334155;}
+        .dark .section-title { color: #93c5fd; }
+        .dark .bg-blue-50 { background-color: #1e293b; border: 1px solid #334155; }
+        .dark .text-blue-700 { color: #60a5fa; }
+        .dark .text-gray-600 { color: #94a3b8; }
+        .dark .bg-gradient-to-br { background-image: linear-gradient(to bottom right, #1e293b, #0f172a); }
+
+
         .page-section {
-            display: none; /* Hidden by default */
+            display: none;
         }
         .page-section.active {
-            display: block; /* Shown when active */
+            display: block;
         }
         .nav-button {
             transition: all 0.3s ease;
@@ -33,6 +75,7 @@
             padding: 2rem;
             margin-bottom: 1.5rem;
         }
+
         .section-title {
             color: #1e3a8a; /* Darker blue for titles */
             font-weight: 700;
@@ -61,7 +104,7 @@
             background-color: #e2e8f0;
             border-radius: 9999px;
             height: 8px;
-            margin-top: 1rem;
+            margin: 1rem 0;
         }
         .progress-bar-fill {
             height: 100%;
@@ -69,11 +112,27 @@
             border-radius: 9999px;
             transition: width 0.5s ease-in-out;
         }
-        /* Style for scrollable content within cards if needed */
         .scrollable-content {
             max-height: 400px; /* Adjust as needed */
             overflow-y: auto;
             padding-right: 1rem; /* Space for scrollbar */
+        }
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-dot.active {
+            background-color: #3b82f6;
         }
     </style>
 </head>
@@ -82,9 +141,13 @@
     <div class="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-6 sm:p-8 relative overflow-hidden">
 
         <!-- Header -->
-        <header class="text-center mb-6">
+        <header class="text-center mb-6 relative">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2">Juan Miguel Ríos Redondo</h1>
             <p class="text-lg sm:text-xl text-blue-600 font-semibold">Compositor, Guitarrista, Docente y Editor Musical</p>
+             <!-- Dark Mode Toggle -->
+             <button id="dark-mode-toggle" class="absolute top-0 right-0 p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 no-print">
+                <i class="fas fa-moon"></i>
+            </button>
         </header>
 
         <!-- Page Content -->
@@ -119,9 +182,8 @@
                     <h3 class="font-semibold text-blue-800 text-lg mb-4 text-center">Proyectos Destacados</h3>
             
                     <div class="space-y-4">
-                        <!-- Herramientas de Armonía -->
                         <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-                            <p class="font-semibold text-blue-700">Herramientas de Armonía</p>
+                            <p class="font-semibold text-blue-700"><i class="fas fa-shapes mr-2"></i>Herramientas de Armonía</p>
                             <p class="text-sm text-gray-600">
                                 Desarrollo de aplicaciones para el análisis y la aplicación de la teoría armónica, incluyendo 
                                 <a href="https://juanmiguel0927.github.io/BloqueArmonicoPro/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`BloqueArmonicoPro`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
@@ -130,20 +192,19 @@
                                 y <a href="https://juanmiguel0927.github.io/TeoriaNeo-Riemanniana/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`TeoriaNeo-Riemanniana`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>.
                             </p>
                         </div>
-                        <!-- Aplicaciones para Improvisación -->
                         <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-                            <p class="font-semibold text-blue-700">Aplicaciones para Improvisación Musical</p>
+                            <p class="font-semibold text-blue-700"><i class="fas fa-guitar mr-2"></i>Aplicaciones para la Improvisación Musical</p>
                             <p class="text-sm text-gray-600">
                                 Diseño de software interactivo para el estudio de la improvisación, como 
                                 <a href="https://juanmiguel0927.github.io/LaboratorioDeModos/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LaboratorioDeModos`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
                                 <a href="https://juanmiguel0927.github.io/MenorMelodico/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`MenorMelodico`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
-                                <a href="https://juanmiguel0927.github.io/LaboratorioLenguajeDeJazz/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LaboratorioLenguajeDeJazz`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a> 
+                                <a href="https://juanmiguel0927.github.io/LaboratorioLenguajeDeJazz/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LaboratorioLenguajeDeJazz`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
+                                <a href="https://juanmiguel0927.github.io/Pentatonicas/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`Pentatonicas`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>
                                 y <a href="https://juanmiguel0927.github.io/ResolucionesBlues/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`ResolucionesBlues`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>.
                             </p>
                         </div>
-                        <!-- Software de Productividad -->
                         <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-                            <p class="font-semibold text-blue-700">Software de Productividad y Entrenamiento</p>
+                            <p class="font-semibold text-blue-700"><i class="fas fa-tasks mr-2"></i>Software de Productividad y Entrenamiento</p>
                             <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
                                 <li><strong>Calculadora Musical (<a href="https://juanmiguel0927.github.io/DuracionMusicalPro/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`DuracionMusicalPro`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>):</strong> Herramienta que calcula equivalencias entre BPM, duración en tiempo real y número de compases.</li>
                                 <li><strong>Entrenador de Lectura a 1ra Vista (<a href="https://juanmiguel0927.github.io/LecturaAPrimeraVista/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LecturaAPrimeraVista`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>):</strong> Aplicación para practicar lectura en guitarra con ejercicios generados algorítmicamente.</li>
@@ -195,6 +256,7 @@
                             <li class="list-item"><i class="fas fa-book-open"></i> <span><strong>Orquestación</strong> (Septiembre-Noviembre 2020, 60 horas) - Pontificia Universidad Javeriana</span></li>
                             <li class="list-item"><i class="fas fa-book-open"></i> <span><strong>Orquestación</strong> (Noviembre 2021, 5 horas) - Udemy (Instructor: Rovshan Asgarzade)</span></li>
                             <li class="list-item"><i class="fas fa-file-alt"></i> <span><strong>Primer Curso de Documentación Musical</strong> (Septiembre 2024) - Desarrollo Integral de la Música</span></li>
+                            <li class="list-item"><i class="fas fa-file-alt"></i> <span><strong>Segundo Curso de Documentación Musical</strong> (Julio 2025)</span></li>
                             <li class="list-item"><i class="fas fa-tools"></i> <span><strong>Fortalecimiento y capacidades</strong> en el uso de herramientas tecnológicas para la formación musical</span></li>
                             <li class="list-item"><i class="fas fa-compact-disc"></i> <span><strong>Armonía, Arreglo y Composición</strong></span></li>
                             <li class="list-item"><i class="fas fa-microphone-alt"></i> <span><strong>Taller de armonía</strong></span></li>
@@ -275,68 +337,76 @@
             <section id="page-6" class="page-section">
                 <div class="card">
                     <h2 class="section-title text-2xl">Catálogo de Obras</h2>
-                    <div class="scrollable-content grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                    <!-- Work Filters -->
+                    <div id="work-filters" class="flex justify-center flex-wrap gap-2 mb-4 no-print">
+                        <button class="filter-btn bg-blue-500 text-white py-1 px-3 rounded-full text-sm" data-filter="all">Todos</button>
+                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-filter="guitarra">Guitarra</button>
+                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-filter="cuarteto">Cuarteto</button>
+                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-filter="banda-orquesta">Banda/Orquesta</button>
+                    </div>
+
+                    <div id="work-list" class="scrollable-content grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="cuarteto">
                             <p class="font-semibold text-blue-800">"ENIGMA"</p>
                             <p class="text-sm text-gray-600">Cuarteto de Cuerdas, 06-sep-2012</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="guitarra">
                             <p class="font-semibold text-blue-800">"MIRADAS"</p>
                             <p class="text-sm text-gray-600">Guitarra, 21-nov-2012</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="guitarra">
                             <p class="font-semibold text-blue-800">"SONATINA"</p>
                             <p class="text-sm text-gray-600">Guitarra, 05-dic-2012</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="cuarteto">
                             <p class="font-semibold text-blue-800">"PAISAJES"</p>
                             <p class="text-sm text-gray-600">Cuarteto, 10-ene-2013</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="cuarteto">
                             <p class="font-semibold text-blue-800">"STRING QUARTET NO. 2"</p>
                             <p class="text-sm text-gray-600">Cuarteto de Cuerdas, 28-abr-2013</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="banda-orquesta">
                             <p class="font-semibold text-blue-800">"DIMENCIONES"</p>
                             <p class="text-sm text-gray-600">Banda/Orquesta, 04-sep-2013</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="trio">
                             <p class="font-semibold text-blue-800">"AB PARA GUITARRA VIOLA & FLAUTA"</p>
                             <p class="text-sm text-gray-600">Trio, 08-ago-2016</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="piano">
                             <p class="font-semibold text-blue-800">"PIANO PICTÓRICO"</p>
                             <p class="text-sm text-gray-600">Piano, 26-sep-2016</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="quinteto">
                             <p class="font-semibold text-blue-800">"POLOS OPUESTOS"</p>
                             <p class="text-sm text-gray-600">Quinteto de Cuerdas, 11-abr-2018</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="guitarra">
                             <p class="font-semibold text-blue-800">"GOTA PULSANTE. PARA GUITARRA."</p>
                             <p class="text-sm text-gray-600">Guitarra, 20-oct-2018</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="banda-orquesta">
                             <p class="font-semibold text-blue-800">"INSTINTOS PARA BANDA SINFONICA"</p>
                             <p class="text-sm text-gray-600">Banda Sinfónica, 07-mar-2019</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="banda-orquesta">
                             <p class="font-semibold text-blue-800">"ILUSIÓN Y REALIDAD PARA VIOLIN Y ORQUESTA"</p>
                             <p class="text-sm text-gray-600">Orquesta Sinfónica y Solista, 23-jun-2019</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="banda-orquesta">
                             <p class="font-semibold text-blue-800">"VIOLETA (SON PALENQUE)"</p>
                             <p class="text-sm text-gray-600">Big Band, 30-ene-2020</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="coro">
                             <p class="font-semibold text-blue-800">"LA NEGRITA (CORO MIXTO)"</p>
                             <p class="text-sm text-gray-600">Coro Mixto, 28-feb-2020</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="banda-orquesta">
                             <p class="font-semibold text-blue-800">"MEDIO OSCURO"</p>
                             <p class="text-sm text-gray-600">Orquesta Sinfónica, 11-oct-2020</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
+                        <div class="work-item bg-blue-50 p-4 rounded-lg shadow-sm" data-category="guitarra">
                             <p class="font-semibold text-blue-800">"TEMA CON VARIACIONES PARA GUITARRA"</p>
                             <p class="text-sm text-gray-600">Guitarra, 11-nov-2021</p>
                         </div>
@@ -378,79 +448,89 @@
             <section id="page-8" class="page-section">
                 <div class="card text-center">
                     <h2 class="section-title text-2xl">¡Conectemos a través de la música!</h2>
-                    <p class="text-gray-700 mb-4">Estoy abierto a nuevas oportunidades y colaboraciones.</p>
+                    <p class="text-gray-700 mb-6">Estoy abierto a nuevas oportunidades y colaboraciones.</p>
                     <div class="flex flex-col items-center space-y-3">
-                        <div class="flex items-center text-blue-700">
-                            <i class="fas fa-phone-alt mr-2"></i>
-                            <span class="font-semibold">Teléfono:</span> Cel. 300 491 6648
-                        </div>
-                        <div class="flex items-center text-blue-700">
-                            <i class="fas fa-envelope mr-2"></i>
-                            <span class="font-semibold">Correo Electrónico:</span> juanmiguel0927@gmail.com
-                        </div>
-                        <div class="flex items-center text-blue-700">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span class="font-semibold">Lugar de Nacimiento:</span> Barranquilla - Atlántico
-                        </div>
-                        <div class="flex items-center text-blue-700">
-                            <i class="fas fa-birthday-cake mr-2"></i>
-                            <span class="font-semibold">Fecha de Nacimiento:</span> 27 de octubre de 1984 <span id="age-span"></span>
-                        </div>
-                        <div class="flex items-center text-blue-700">
-                            <i class="fas fa-id-card mr-2"></i>
-                            <span class="font-semibold">Documento de Identidad:</span> 72.***.***
-                        </div>
+                        <div class="flex items-center text-blue-700"><i class="fas fa-phone-alt mr-2"></i><span class="font-semibold">Teléfono:</span>&nbsp;Cel. 300 491 6648</div>
+                        <div class="flex items-center text-blue-700"><i class="fas fa-envelope mr-2"></i><span class="font-semibold">Correo:</span>&nbsp;juanmiguel0927@gmail.com</div>
+                        <div class="flex items-center text-blue-700"><i class="fas fa-map-marker-alt mr-2"></i><span class="font-semibold">Lugar de Nacimiento:</span>&nbsp;Barranquilla - Atlántico</div>
+                        <div class="flex items-center text-blue-700"><i class="fas fa-birthday-cake mr-2"></i><span class="font-semibold">Fecha de Nacimiento:</span>&nbsp;27 de octubre de 1984 <span id="age-span"></span></div>
+                        <div class="flex items-center text-blue-700"><i class="fas fa-id-card mr-2"></i><span class="font-semibold">Documento de Identidad:</span>&nbsp;72.***.***</div>
                     </div>
+                     <!-- Download PDF button -->
+                    <button id="download-pdf" class="mt-8 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full flex items-center shadow-lg mx-auto no-print">
+                        <i class="fas fa-file-pdf mr-2"></i> Descargar CV (PDF)
+                    </button>
                     <p class="text-lg font-semibold text-gray-800 mt-6">¡Gracias por su atención!</p>
                 </div>
             </section>
         </div>
 
-        <!-- Navigation Buttons -->
-        <div class="flex justify-between items-center mt-6">
-            <button id="prev-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
-                <i class="fas fa-arrow-left mr-2"></i> Anterior
-            </button>
+        <!-- Navigation -->
+        <div class="no-print">
             <div class="progress-bar-container">
                 <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
             </div>
-            <button id="next-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
-                Siguiente <i class="fas fa-arrow-right ml-2"></i>
-            </button>
+            <div id="nav-dots-container" class="nav-dots"></div>
+            <div class="flex justify-between items-center mt-4">
+                <button id="prev-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
+                    <i class="fas fa-arrow-left mr-2"></i> Anterior
+                </button>
+                <button id="next-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
+                    Siguiente <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Get all page sections
         const pages = document.querySelectorAll('.page-section');
-        // Get navigation buttons
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
-        // Get progress bar fill element
         const progressBarFill = document.getElementById('progress-bar-fill');
+        const navDotsContainer = document.getElementById('nav-dots-container');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const downloadPdfButton = document.getElementById('download-pdf');
+        const workFilters = document.getElementById('work-filters');
+        const workList = document.getElementById('work-list');
+        const workItems = workList.querySelectorAll('.work-item');
 
-        let currentPageIndex = 0; // Current active page index
+        let currentPageIndex = 0;
 
-        // Function to update page visibility and button states
+        // Create nav dots
+        pages.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('nav-dot');
+            dot.dataset.index = index;
+            navDotsContainer.appendChild(dot);
+        });
+
+        const navDots = document.querySelectorAll('.nav-dot');
+
         function updatePage() {
-            // Hide all pages
             pages.forEach((page, index) => {
-                page.classList.remove('active');
                 if (index === currentPageIndex) {
-                    page.classList.add('active'); // Show current page
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
                 }
             });
 
-            // Update button states
-            prevButton.disabled = currentPageIndex === 0; // Disable 'Previous' on first page
-            nextButton.disabled = currentPageIndex === pages.length - 1; // Disable 'Next' on last page
+            prevButton.disabled = currentPageIndex === 0;
+            
+            if (currentPageIndex === pages.length - 1) {
+                nextButton.innerHTML = 'Inicio <i class="fas fa-home ml-2"></i>';
+            } else {
+                nextButton.innerHTML = 'Siguiente <i class="fas fa-arrow-right ml-2"></i>';
+            }
 
-            // Update progress bar
             const progress = ((currentPageIndex + 1) / pages.length) * 100;
             progressBarFill.style.width = `${progress}%`;
+
+            navDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentPageIndex);
+            });
         }
 
-        // Event listener for 'Previous' button
         prevButton.addEventListener('click', () => {
             if (currentPageIndex > 0) {
                 currentPageIndex--;
@@ -458,17 +538,62 @@
             }
         });
 
-        // Event listener for 'Next' button
         nextButton.addEventListener('click', () => {
-            if (currentPageIndex < pages.length - 1) {
-                currentPageIndex++;
+            currentPageIndex = (currentPageIndex < pages.length - 1) ? currentPageIndex + 1 : 0;
+            updatePage();
+        });
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                currentPageIndex = parseInt(dot.dataset.index);
                 updatePage();
+            });
+        });
+
+        // Dark Mode Logic
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Download PDF Logic
+        downloadPdfButton.addEventListener('click', () => {
+            window.print();
+        });
+
+        // Work Filter Logic
+        workFilters.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const filter = e.target.dataset.filter;
+
+                // Update button styles
+                workFilters.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('bg-blue-500', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                e.target.classList.add('bg-blue-500', 'text-white');
+                e.target.classList.remove('bg-gray-200', 'text-gray-700');
+
+
+                workItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             }
         });
 
-        // Initialize the presentation on load
         window.onload = function() {
-            // Calculate and display age automatically
             const birthDate = new Date('1984-10-27T00:00:00');
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
@@ -476,14 +601,12 @@
             if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-            // Update the age in the HTML
             document.getElementById('age-span').textContent = `(${age} Años)`;
-
-            // Initialize the page view
             updatePage();
         };
     </script>
 </body>
 </html>
+
 
 
