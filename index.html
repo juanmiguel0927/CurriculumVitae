@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portafolio y CV de Juan Miguel Ríos Redondo: Compositor, Guitarrista, Docente y Desarrollador de Software Musical Educativo.">
+    <meta name="keywords" content="Juan Miguel Ríos, Música, Composición, Jazz, Software Educativo, IA, Barranquilla, CV">
+    <meta name="author" content="Juan Miguel Ríos Redondo">
     <title>CV Dinámico - Juan Miguel Ríos Redondo</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,6 +23,7 @@
             .page-section {
                 display: block !important;
                 page-break-after: always;
+                animation: none !important; /* Disable animation for print */
             }
             .card {
                 box-shadow: none;
@@ -53,14 +57,32 @@
         .dark .text-blue-700 { color: #60a5fa; }
         .dark .text-gray-600 { color: #94a3b8; }
         .dark .bg-gradient-to-br { background-image: linear-gradient(to bottom right, #1e293b, #0f172a); }
+        .dark .bg-indigo-50 { background-color: #1e293b; border: 1px solid #334155; }
+        .dark .text-indigo-700 { color: #818cf8; }
+        .dark .bg-green-50 { background-color: #1e293b; border: 1px solid #334155; }
+        .dark .text-green-700 { color: #4ade80; }
 
+
+        /* Animations */
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .page-section {
             display: none;
         }
         .page-section.active {
             display: block;
+            animation: fadeInSlide 0.4s ease-out forwards;
         }
+        
         .nav-button {
             transition: all 0.3s ease;
         }
@@ -68,6 +90,10 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+        .nav-button:active {
+            transform: translateY(0);
+        }
+
         .card {
             background-color: #ffffff;
             border-radius: 1.5rem; /* More rounded corners */
@@ -97,6 +123,7 @@
             object-fit: cover;
             border-radius: 50%;
             border: 4px solid #3b82f6; /* Blue border */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .progress-bar-container {
             width: 100%;
@@ -104,18 +131,38 @@
             border-radius: 9999px;
             height: 8px;
             margin: 1rem 0;
+            overflow: hidden;
         }
         .progress-bar-fill {
             height: 100%;
             background-color: #3b82f6;
             border-radius: 9999px;
-            transition: width 0.5s ease-in-out;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .scrollable-content {
             max-height: 400px; /* Adjust as needed */
             overflow-y: auto;
             padding-right: 1rem; /* Space for scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
         }
+        .scrollable-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrollable-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .scrollable-content {
+            scrollbar-color: #475569 transparent;
+        }
+        .dark .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+
         .nav-dots {
             display: flex;
             justify-content: center;
@@ -128,35 +175,64 @@
             background-color: #cbd5e1;
             border-radius: 50%;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .nav-dot:hover {
+            transform: scale(1.2);
         }
         .nav-dot.active {
             background-color: #3b82f6;
+            transform: scale(1.2);
+        }
+        
+        /* Toast notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 17px;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-blue-100 to-indigo-200">
 
-    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-6 sm:p-8 relative overflow-hidden">
+    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-6 sm:p-8 relative overflow-hidden transition-colors duration-300">
 
         <!-- Header -->
         <header class="text-center mb-6 relative">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2">Juan Miguel Ríos Redondo</h1>
             <p class="text-lg sm:text-xl text-blue-600 font-semibold">Compositor, Guitarrista, Docente y Editor Musical</p>
              <!-- Dark Mode Toggle -->
-             <button id="dark-mode-toggle" class="absolute top-0 right-0 p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 no-print">
+             <button id="dark-mode-toggle" class="absolute top-0 right-0 p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 no-print transition-transform hover:rotate-12" title="Cambiar modo oscuro/claro">
                 <i class="fas fa-moon"></i>
             </button>
         </header>
 
         <!-- Page Content -->
-        <div id="presentation-content">
+        <div id="presentation-content" class="min-h-[400px]"> <!-- Min-height to prevent jumping -->
             <!-- Page 1: Perfil Profesional -->
             <section id="page-1" class="page-section active">
                 <div class="card p-4 sm:p-8">
                     <h2 class="section-title text-xl sm:text-2xl">Perfil Profesional</h2>
                     <div class="flex flex-col items-center mb-6">
-                        <img src="https://raw.githubusercontent.com/juanmiguel0927/CurriculumVitae/main/Foto%20CV.png" class="profile-image mb-4">
+                        <img src="https://raw.githubusercontent.com/juanmiguel0927/CurriculumVitae/main/Foto%20CV.png" class="profile-image mb-4" alt="Foto de Perfil Juan Miguel Ríos">
                         <p class="text-gray-700 text-center leading-relaxed">
                             Músico y educador con estudios de posgrado en Composición, enfocado en fusionar la pedagogía musical con la innovación tecnológica. Como compositor galardonado y docente, he aplicado mi experiencia en la creación de aplicaciones de software educativo mediante el uso de herramientas de inteligencia artificial para el prototipado y desarrollo, facilitando el aprendizaje de la armonía, la improvisación y la lectura musical. Mi perfil se complementa con una sólida trayectoria como editor y beta tester de software musical profesional, buscando siempre aplicar la tecnología para crear soluciones que enriquezcan la práctica y la teoría musical.
                         </p>
@@ -175,40 +251,83 @@
                 <div class="card p-4 sm:p-8">
                     <h2 class="section-title text-xl sm:text-2xl">Proyectos y Competencias Tecnológicas</h2>
                     <p class="text-gray-700 text-center leading-relaxed mb-6">
-                        Proyectos de software educativo <strong>prototipados y desarrollados utilizando plataformas de inteligencia artificial</strong>, con un enfoque principal en la música para resolver problemas prácticos de músicos y estudiantes.
+                        Proyectos de software educativo <strong>prototipados y desarrollados utilizando plataformas de inteligencia artificial</strong>, diseñados para resolver problemas prácticos en la música y la gestión personal.
                     </p>
             
-                    <h3 class="font-semibold text-blue-800 text-lg mb-4 text-center">Proyectos Destacados</h3>
-            
                     <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-                            <p class="font-semibold text-blue-700"><i class="fas fa-shapes mr-2"></i>Herramientas de Armonía</p>
-                            <p class="text-sm text-gray-600">
-                                Desarrollo de aplicaciones para el análisis y la aplicación de la teoría armónica, incluyendo 
-                                <a href="https://juanmiguel0927.github.io/BloqueArmonicoPro/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`BloqueArmonicoPro`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
-                                <a href="https://juanmiguel0927.github.io/GeneradorDodecafonico/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`GeneradorDodecafonico`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
-                                <a href="https://juanmiguel0927.github.io/GMC/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`GMC`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a> 
-                                y <a href="https://juanmiguel0927.github.io/TeoriaNeo-Riemanniana/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`TeoriaNeo-Riemanniana`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>.
+                        <!-- Categoría 1: Composición y Teoría -->
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm transition hover:shadow-md">
+                            <p class="font-semibold text-blue-700"><i class="fas fa-layer-group mr-2"></i>Composición Musical y Teoría Avanzada</p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Herramientas para el cálculo, análisis y construcción de estructuras musicales complejas.
                             </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="https://juanmiguel0927.github.io/BloqueArmonicoPro/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Bloques Armónicos</a>
+                                <a href="https://juanmiguel0927.github.io/TeoriaNeo-Riemanniana/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Teoría Neo-Riemanniana</a>
+                                <a href="https://juanmiguel0927.github.io/GeneradorDodecafonico/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Generador Dodecafónico</a>
+                                <a href="https://juanmiguel0927.github.io/GeneradorDeIsorritmia/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Isorritmia</a>
+                                <a href="https://juanmiguel0927.github.io/NavegacionModal/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Navegación Modal</a>
+                                <a href="https://juanmiguel0927.github.io/DuracionMusicalPro/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Calculadora Musical</a>
+                            </div>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-                            <p class="font-semibold text-blue-700"><i class="fas fa-guitar mr-2"></i>Aplicaciones para la Improvisación Musical</p>
-                            <p class="text-sm text-gray-600">
-                                Diseño de software interactivo para el estudio de la improvisación, como 
-                                <a href="https://juanmiguel0927.github.io/LaboratorioDeModos/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LaboratorioDeModos`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
-                                <a href="https://juanmiguel0927.github.io/MenorMelodico/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`MenorMelodico`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
-                                <a href="https://juanmiguel0927.github.io/LaboratorioLenguajeDeJazz/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LaboratorioLenguajeDeJazz`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>, 
-                                <a href="https://juanmiguel0927.github.io/Pentatonicas/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`Pentatonicas`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>
-                                y <a href="https://juanmiguel0927.github.io/ResolucionesBlues/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`ResolucionesBlues`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>.
+
+                        <!-- Categoría 2: Jazz y Estilos -->
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm transition hover:shadow-md">
+                            <p class="font-semibold text-blue-700"><i class="fas fa-guitar mr-2"></i>Vocabulario de Jazz y Estilos</p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Suite de aplicaciones para el estudio del vocabulario, armonía y lenguaje del jazz.
                             </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="https://juanmiguel0927.github.io/BarryHarrisArmonia/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Barry Harris</a>
+                                <a href="https://juanmiguel0927.github.io/LaboratorioLenguajeDeJazz/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Lab Lenguaje Jazz</a>
+                                <a href="https://juanmiguel0927.github.io/LaboratorioDeModos/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Lab de Modos</a>
+                                <a href="https://juanmiguel0927.github.io/MenorMelodico/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Menor Melódico</a>
+                                <a href="https://juanmiguel0927.github.io/ResolucionesBlues/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Resoluciones Blues</a>
+                                <a href="https://juanmiguel0927.github.io/Pentatonicas/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Pentatónicas</a>
+                                <a href="https://juanmiguel0927.github.io/GMC/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">GMC</a>
+                            </div>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-                            <p class="font-semibold text-blue-700"><i class="fas fa-tasks mr-2"></i>Software de Productividad y Entrenamiento</p>
-                            <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                                <li><strong>Calculadora Musical (<a href="https://juanmiguel0927.github.io/DuracionMusicalPro/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`DuracionMusicalPro`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>):</strong> Herramienta que calcula equivalencias entre BPM, duración en tiempo real y número de compases.</li>
-                                <li><strong>Entrenador de Lectura a 1ra Vista (<a href="https://juanmiguel0927.github.io/LecturaAPrimeraVista/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LecturaAPrimeraVista`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>):</strong> Aplicación para practicar lectura en guitarra con ejercicios generados algorítmicamente.</li>
-                                <li><strong>Lectura Rápida (<a href="https://juanmiguel0927.github.io/LecturaRapida/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-medium">`LecturaRapida`<i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i></a>):</strong> Aplicación para aumentar la velocidad de lectura de textos en español e inglés.</li>
-                            </ul>
+
+                        <!-- Categoría 3: Entrenamiento Auditivo -->
+                        <div class="bg-blue-50 p-4 rounded-lg shadow-sm transition hover:shadow-md">
+                            <p class="font-semibold text-blue-700"><i class="fas fa-ear-listen mr-2"></i>Entrenamiento de Habilidades Fundamentales</p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Recursos para el desarrollo del oído, ritmo y lectura musical.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="https://juanmiguel0927.github.io/FormarOidoPro/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Formar Oído Pro</a>
+                                <a href="https://juanmiguel0927.github.io/Ritmo-Metro/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Ritmo y Metro</a>
+                                <a href="https://juanmiguel0927.github.io/LecturaAPrimeraVista/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Lectura 1ra Vista</a>
+                                <a href="https://juanmiguel0927.github.io/LecturaRapida/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Lectura Rápida</a>
+                            </div>
+                        </div>
+
+                        <!-- Categoría 4: Billar -->
+                        <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100 transition hover:shadow-md">
+                            <p class="font-semibold text-green-700"><i class="fas fa-dot-circle mr-2"></i>Entrenamiento Deportivo (Billar)</p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Herramientas técnicas y de evaluación para el billar pool.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="https://juanmiguel0927.github.io/Tecnica/" target="_blank" class="text-xs bg-white border border-green-200 text-green-600 px-2 py-1 rounded hover:bg-green-100 transition">Técnica (Pool)</a>
+                                <a href="https://juanmiguel0927.github.io/Pool/" target="_blank" class="text-xs bg-white border border-green-200 text-green-600 px-2 py-1 rounded hover:bg-green-100 transition">Pool de Ejercicios</a>
+                                <a href="https://juanmiguel0927.github.io/ExamenPool/" target="_blank" class="text-xs bg-white border border-green-200 text-green-600 px-2 py-1 rounded hover:bg-green-100 transition">Examen Pool</a>
+                            </div>
+                        </div>
+
+                        <!-- Categoría 5: Estilo de Vida y Finanzas -->
+                        <div class="bg-indigo-50 p-4 rounded-lg shadow-sm border border-indigo-100 transition hover:shadow-md">
+                            <p class="font-semibold text-indigo-700"><i class="fas fa-home mr-2"></i>Estilo de Vida, Finanzas y Prototipos</p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Soluciones prácticas para la gestión personal y nuevos desarrollos.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="https://juanmiguel0927.github.io/Piloto/" target="_blank" class="text-xs bg-white border border-indigo-200 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 transition font-bold" title="Plataforma de Audiolibros">Piloto (Audiolibros)</a>
+                                <a href="https://juanmiguel0927.github.io/Finanzas/" target="_blank" class="text-xs bg-white border border-indigo-200 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 transition">Finanzas</a>
+                                <a href="https://juanmiguel0927.github.io/AhorroFlex/" target="_blank" class="text-xs bg-white border border-indigo-200 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 transition">Ahorro Flex</a>
+                                <a href="https://juanmiguel0927.github.io/Lunea/" target="_blank" class="text-xs bg-white border border-indigo-200 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 transition">Lunea</a>
+                                <a href="https://juanmiguel0927.github.io/Asados/" target="_blank" class="text-xs bg-white border border-indigo-200 text-indigo-600 px-2 py-1 rounded hover:bg-indigo-100 transition">Asados</a>
+                            </div>
                         </div>
                     </div>
             
@@ -300,14 +419,23 @@
             <!-- Page 5: Publicaciones y Logros Destacados -->
             <section id="page-5" class="page-section">
                 <div class="card p-4 sm:p-8">
-                    <h2 class="section-title text-xl sm:text-2xl">Publicaciones</h2>
-                    <ul class="text-gray-700">
+                    <h2 class="section-title text-xl sm:text-2xl">Publicaciones y Recursos</h2>
+                    <ul class="text-gray-700 space-y-4">
                         <li class="list-item">
                             <i class="fas fa-book"></i>
                             <div>
                                 <p class="font-semibold text-blue-700">Autor de dos libros en proceso de publicación:</p>
                                 <p>"Armonía: Teoría y Práctica"</p>
                                 <p>"Contrapunto"</p>
+                            </div>
+                        </li>
+                        <li class="list-item">
+                            <i class="fas fa-atlas"></i>
+                            <div>
+                                <a href="https://juanmiguel0927.github.io/Bibliografia/" target="_blank" class="font-semibold text-blue-700 hover:underline">
+                                    Bibliografía <i class="fas fa-external-link-alt text-xs ml-1 opacity-75"></i>
+                                </a>
+                                <p class="text-sm text-gray-600">Compendio de fuentes, libros y referencias bibliográficas utilizadas en mis investigaciones y docencia.</p>
                             </div>
                         </li>
                     </ul>
@@ -338,10 +466,10 @@
                     <h2 class="section-title text-xl sm:text-2xl">Catálogo de Obras</h2>
                     <!-- Work Filters -->
                     <div id="work-filters" class="flex justify-center flex-wrap gap-2 mb-4 no-print">
-                        <button class="filter-btn bg-blue-500 text-white py-1 px-3 rounded-full text-sm" data-filter="all">Todos</button>
-                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-filter="guitarra">Guitarra</button>
-                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-filter="cuarteto">Cuarteto</button>
-                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm" data-filter="banda-orquesta">Banda/Orquesta</button>
+                        <button class="filter-btn bg-blue-500 text-white py-1 px-3 rounded-full text-sm transition hover:scale-105" data-filter="all">Todos</button>
+                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm transition hover:scale-105" data-filter="guitarra">Guitarra</button>
+                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm transition hover:scale-105" data-filter="cuarteto">Cuarteto</button>
+                        <button class="filter-btn bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm transition hover:scale-105" data-filter="banda-orquesta">Banda/Orquesta</button>
                     </div>
 
                     <div id="work-list" class="scrollable-content grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -450,13 +578,16 @@
                     <p class="text-gray-700 mb-6">Estoy abierto a nuevas oportunidades y colaboraciones.</p>
                     <div class="flex flex-col items-center space-y-3">
                         <div class="flex items-center text-blue-700"><i class="fas fa-phone-alt mr-2"></i><span class="font-semibold">Teléfono:</span>&nbsp;Cel. 300 491 6648</div>
-                        <div class="flex items-center text-blue-700"><i class="fas fa-envelope mr-2"></i><span class="font-semibold">Correo:</span>&nbsp;juanmiguel0927@gmail.com</div>
+                        <div class="flex items-center text-blue-700 cursor-pointer hover:bg-blue-50 p-2 rounded-lg transition" onclick="copyToClipboard('juanmiguel0927@gmail.com')">
+                            <i class="fas fa-envelope mr-2"></i><span class="font-semibold">Correo:</span>&nbsp;juanmiguel0927@gmail.com
+                            <i class="far fa-copy ml-2 text-gray-400 text-sm"></i>
+                        </div>
                         <div class="flex items-center text-blue-700"><i class="fas fa-map-marker-alt mr-2"></i><span class="font-semibold">Lugar de Nacimiento:</span>&nbsp;Barranquilla - Atlántico</div>
                         <div class="flex items-center text-blue-700"><i class="fas fa-birthday-cake mr-2"></i><span class="font-semibold">Fecha de Nacimiento:</span>&nbsp;27 de octubre de 1984 <span id="age-span"></span></div>
                         <div class="flex items-center text-blue-700"><i class="fas fa-id-card mr-2"></i><span class="font-semibold">Documento de Identidad:</span>&nbsp;72.***.***</div>
                     </div>
                      <!-- Download PDF button -->
-                    <button id="download-pdf" class="mt-8 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full flex items-center shadow-lg mx-auto no-print">
+                    <button id="download-pdf" class="mt-8 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full flex items-center shadow-lg mx-auto no-print transition transform hover:-translate-y-1">
                         <i class="fas fa-file-pdf mr-2"></i> Descargar CV (PDF)
                     </button>
                     <p class="text-lg font-semibold text-gray-800 mt-6">¡Gracias por su atención!</p>
@@ -471,15 +602,22 @@
             </div>
             <div id="nav-dots-container" class="nav-dots"></div>
             <div class="flex justify-between items-center mt-4">
-                <button id="prev-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
+                <button id="prev-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg" title="Página Anterior (Flecha Izquierda)">
                     <i class="fas fa-arrow-left sm:mr-2"></i><span class="hidden sm:inline">Anterior</span>
                 </button>
-                <button id="next-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg">
+                <button id="next-button" class="nav-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center shadow-lg" title="Siguiente Página (Flecha Derecha)">
                     <span class="hidden sm:inline">Siguiente</span><i class="fas fa-arrow-right sm:ml-2"></i>
                 </button>
             </div>
+            
+            <div class="text-center mt-4 text-xs text-gray-500">
+                <i class="fas fa-keyboard mr-1"></i> Usa las flechas del teclado para navegar
+            </div>
         </div>
     </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast">Correo copiado al portapapeles</div>
 
     <script>
         const pages = document.querySelectorAll('.page-section');
@@ -515,6 +653,11 @@
             });
 
             prevButton.disabled = currentPageIndex === 0;
+            if (currentPageIndex === 0) {
+                prevButton.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
             
             if (currentPageIndex === pages.length - 1) {
                 nextButton.innerHTML = '<span class="hidden sm:inline">Inicio</span><i class="fas fa-home sm:ml-2"></i>';
@@ -528,6 +671,9 @@
             navDots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentPageIndex);
             });
+            
+            // Scroll to top of content on page change
+            document.getElementById('presentation-content').scrollTop = 0;
         }
 
         prevButton.addEventListener('click', () => {
@@ -592,6 +738,65 @@
             }
         });
 
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                var toast = document.getElementById("toast");
+                toast.className = "show";
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            }, function(err) {
+                console.error('Async: Could not copy text: ', err);
+            });
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowLeft") {
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    updatePage();
+                }
+            } else if (event.key === "ArrowRight") {
+                if (currentPageIndex < pages.length - 1) {
+                    currentPageIndex++;
+                    updatePage();
+                } else if (currentPageIndex === pages.length - 1) {
+                    currentPageIndex = 0; // Loop back to start
+                    updatePage();
+                }
+            }
+        });
+
+        // Swipe support for touch devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const contentDiv = document.getElementById('presentation-content');
+
+        contentDiv.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        contentDiv.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) { // Swipe Left (Next)
+                if (currentPageIndex < pages.length - 1) {
+                    currentPageIndex++;
+                    updatePage();
+                }
+            }
+            if (touchEndX > touchStartX + 50) { // Swipe Right (Prev)
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    updatePage();
+                }
+            }
+        }
+
         window.onload = function() {
             const birthDate = new Date('1984-10-27T00:00:00');
             const today = new Date();
@@ -606,4 +811,3 @@
     </script>
 </body>
 </html>
-
