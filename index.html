@@ -23,7 +23,7 @@
             .page-section {
                 display: block !important;
                 page-break-after: always;
-                animation: none !important; /* Disable animation for print */
+                animation: none !important;
             }
             .card {
                 box-shadow: none;
@@ -40,7 +40,7 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Light blue-gray background */
+            background-color: #f0f4f8;
             transition: background-color 0.3s, color 0.3s;
         }
         /* Dark mode styles */
@@ -63,7 +63,6 @@
         .dark .text-green-700 { color: #4ade80; }
 
 
-        /* Animations */
         @keyframes fadeInSlide {
             from {
                 opacity: 0;
@@ -90,19 +89,16 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .nav-button:active {
-            transform: translateY(0);
-        }
 
         .card {
             background-color: #ffffff;
-            border-radius: 1.5rem; /* More rounded corners */
+            border-radius: 1.5rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
         }
 
         .section-title {
-            color: #1e3a8a; /* Darker blue for titles */
+            color: #1e3a8a;
             font-weight: 700;
             margin-bottom: 1.5rem;
             text-align: center;
@@ -113,7 +109,7 @@
             margin-bottom: 0.75rem;
         }
         .list-item i {
-            color: #3b82f6; /* Blue icon */
+            color: #3b82f6;
             margin-right: 0.75rem;
             margin-top: 0.25rem;
         }
@@ -122,7 +118,7 @@
             height: 120px;
             object-fit: cover;
             border-radius: 50%;
-            border: 4px solid #3b82f6; /* Blue border */
+            border: 4px solid #3b82f6;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .progress-bar-container {
@@ -140,27 +136,18 @@
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .scrollable-content {
-            max-height: 400px; /* Adjust as needed */
+            max-height: 400px;
             overflow-y: auto;
-            padding-right: 1rem; /* Space for scrollbar */
+            padding-right: 1rem;
             scrollbar-width: thin;
             scrollbar-color: #cbd5e1 transparent;
         }
         .scrollable-content::-webkit-scrollbar {
             width: 6px;
         }
-        .scrollable-content::-webkit-scrollbar-track {
-            background: transparent;
-        }
         .scrollable-content::-webkit-scrollbar-thumb {
             background-color: #cbd5e1;
             border-radius: 20px;
-        }
-        .dark .scrollable-content {
-            scrollbar-color: #475569 transparent;
-        }
-        .dark .scrollable-content::-webkit-scrollbar-thumb {
-            background-color: #475569;
         }
 
         .nav-dots {
@@ -177,15 +164,11 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
-        .nav-dot:hover {
-            transform: scale(1.2);
-        }
         .nav-dot.active {
             background-color: #3b82f6;
             transform: scale(1.2);
         }
         
-        /* Toast notification */
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -226,7 +209,7 @@
         </header>
 
         <!-- Page Content -->
-        <div id="presentation-content" class="min-h-[400px]"> <!-- Min-height to prevent jumping -->
+        <div id="presentation-content" class="min-h-[400px]">
             <!-- Page 1: Perfil Profesional -->
             <section id="page-1" class="page-section active">
                 <div class="card p-4 sm:p-8">
@@ -250,6 +233,14 @@
             <section id="page-2" class="page-section">
                 <div class="card p-4 sm:p-8">
                     <h2 class="section-title text-xl sm:text-2xl">Proyectos y Competencias Tecnológicas</h2>
+                    
+                    <!-- Software Counter Badge -->
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md flex items-center">
+                            <i class="fas fa-laptop-code mr-2"></i> 28 Aplicaciones Desarrolladas
+                        </div>
+                    </div>
+
                     <p class="text-gray-700 text-center leading-relaxed mb-6">
                         Proyectos de software educativo <strong>prototipados y desarrollados utilizando plataformas de inteligencia artificial</strong>, diseñados para resolver problemas prácticos en la música y la gestión personal.
                     </p>
