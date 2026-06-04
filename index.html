@@ -62,7 +62,6 @@
         .dark .bg-green-50 { background-color: #1e293b; border: 1px solid #334155; }
         .dark .text-green-700 { color: #4ade80; }
 
-
         @keyframes fadeInSlide {
             from {
                 opacity: 0;
@@ -164,15 +163,11 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
-        .nav-dot:hover {
-            transform: scale(1.2);
-        }
         .nav-dot.active {
             background-color: #3b82f6;
             transform: scale(1.2);
         }
         
-        /* Toast notification */
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -213,7 +208,7 @@
         </header>
 
         <!-- Page Content -->
-        <div id="presentation-content" class="min-h-[400px]">
+        <div id="presentation-content" class="min-h-[400px]"> <!-- Min-height to prevent jumping -->
             <!-- Page 1: Perfil Profesional -->
             <section id="page-1" class="page-section active">
                 <div class="card p-4 sm:p-8">
@@ -241,7 +236,7 @@
                     <!-- Software Counter Badge -->
                     <div class="flex justify-center mb-6">
                         <div class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md flex items-center">
-                            <i class="fas fa-laptop-code mr-2"></i> 27 Aplicaciones Desarrolladas
+                            <i class="fas fa-laptop-code mr-2"></i> 28 Aplicaciones Desarrolladas
                         </div>
                     </div>
 
@@ -297,6 +292,7 @@
                                 <a href="https://juanmiguel0927.github.io/LecturaRapida/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Lectura Rápida</a>
                                 <a href="https://juanmiguel0927.github.io/Ritmo/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Ritmo</a>
                                 <a href="https://juanmiguel0927.github.io/Mastil/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Mástil</a>
+                                <a href="https://juanmiguel0927.github.io/Metronomo/" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition">Metrónomo</a>
                             </div>
                         </div>
 
